@@ -1,33 +1,34 @@
 import streamlit as st
 
-# Configuración de la página (título y layout)
-st.set_page_config(page_title="Mi Portafolio ML/AI", layout="wide")
+# Page Configuration
+st.set_page_config(page_title="My ML/AI Portfolio", layout="wide")
 
-# Introducción o Página de Inicio
+# Introduction / Home Page
 def intro():
-    st.write("# 👋 Bienvenido a mi Portafolio de ML")
+    st.write("# 👋 Welcome to my ML Portfolio")
     st.markdown("""
-    Este portafolio contiene 5 proyectos clave de Machine Learning e IA, 
-    cubriendo desde modelos de regresión hasta NLP.
+    This portfolio features **5 key Machine Learning & AI projects**, 
+    demonstrating skills ranging from Regression and Classification to NLP and Time Series Forecasting.
     
-    👈 **Selecciona un proyecto en el menú lateral para comenzar.**
+    👈 **Select a project from the sidebar to explore.**
     
-    ### Tech Stack:
-    - **Python** (Scikit-learn, Pandas, Prophet, Transformers)
-    - **Streamlit** (Frontend)
-    - **GitHub** (Control de versiones)
+    ### 🛠️ Tech Stack:
+    - **Core:** Python (Scikit-learn, Pandas, NumPy)
+    - **Advanced:** XGBoost, Prophet, Transformers (Hugging Face)
+    - **Frontend:** Streamlit
+    - **Version Control:** GitHub
     """)
 
-# Definición de las páginas
-# Nota: 'projects/01_churn.py' es la ruta a tus archivos
+# Page Navigation Setup
+# Note: Ensure the 'projects' folder exists with these .py files inside
 pg = st.navigation([
-    st.Page(intro, title="Inicio", icon="🏠"),
+    st.Page(intro, title="Home", icon="🏠"),
     st.Page("projects/01_churn.py", title="1. Churn Prediction", icon="📉"),
-    st.Page("projects/02_precios.py", title="2. Predicción de Precios", icon="💰"),
-    st.Page("projects/03_segmentacion.py", title="3. Segmentación (Clustering)", icon="🧩"),
-    st.Page("projects/04_forecasting.py", title="4. Series Temporales", icon="📅"),
+    st.Page("projects/02_precios.py", title="2. Price Prediction", icon="💰"),
+    st.Page("projects/03_segmentacion.py", title="3. User Segmentation", icon="🧩"),
+    st.Page("projects/04_forecasting.py", title="4. Time Series", icon="📅"),
     st.Page("projects/05_nlp.py", title="5. NLP Classifier", icon="🤖"),
 ])
 
-# Ejecutar la navegación
+# Run Navigation
 pg.run()
