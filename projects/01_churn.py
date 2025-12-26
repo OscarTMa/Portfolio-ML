@@ -2,33 +2,34 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import time
+import joblib
 
-# --- CONFIGURACIÓN DE LA PÁGINA ---
-st.markdown("## 📉 Predicción de Abandono de Clientes (Churn)")
+# --- PAGE CONFIGURATION ---
+st.markdown("## 📉 Customer Churn Prediction")
 st.markdown("""
-Esta herramienta utiliza un modelo de Machine Learning para predecir la probabilidad 
-de que un cliente bancario abandone el servicio. Ajusta los parámetros abajo para simular un perfil.
+This tool uses a Machine Learning model to predict the probability 
+of a bank customer leaving the service (Churn). Adjust the parameters below to simulate a customer profile.
 """)
 
-# --- BARRA LATERAL (SIDEBAR) PARA INPUTS ---
-st.sidebar.header("📝 Perfil del Cliente")
+# --- SIDEBAR INPUTS ---
+st.sidebar.header("📝 Customer Profile")
 
 def user_input_features():
-    # Datos Demográficos
-    gender = st.sidebar.selectbox("Género", ("Masculino", "Femenino"))
-    age = st.sidebar.slider("Edad", 18, 92, 30)
-    geography = st.sidebar.selectbox("País", ("Francia", "España", "Alemania"))
+    # Demographic Data
+    gender = st.sidebar.selectbox("Gender", ("Male", "Female"))
+    age = st.sidebar.slider("Age", 18, 92, 30)
+    geography = st.sidebar.selectbox("Country", ("France", "Spain", "Germany"))
     
-    # Datos Bancarios
-    credit_score = st.sidebar.slider("Puntaje de Crédito (Credit Score)", 300, 850, 600)
-    tenure = st.sidebar.slider("Años siendo cliente (Tenure)", 0, 10, 3)
-    balance = st.sidebar.number_input("Balance en cuenta ($)", 0.0, 250000.0, 60000.0)
-    num_of_products = st.sidebar.selectbox("Número de Productos", (1, 2, 3, 4))
-    has_cr_card = st.sidebar.checkbox("¿Tiene Tarjeta de Crédito?", value=True)
-    is_active_member = st.sidebar.checkbox("¿Es miembro activo?", value=True)
-    estimated_salary = st.sidebar.number_input("Salario Estimado ($)", 0.0, 200000.0, 50000.0)
+    # Financial Data
+    credit_score = st.sidebar.slider("Credit Score", 300, 850, 600)
+    tenure = st.sidebar.slider("Tenure (Years)", 0, 10, 3)
+    balance = st.sidebar.number_input("Account Balance ($)", 0.0, 250000.0, 60000.0)
+    num_of_products = st.sidebar.selectbox("Number of Products", (1, 2, 3, 4))
+    has_cr_card = st.sidebar.checkbox("Has Credit Card?", value=True)
+    is_active_member = st.sidebar.checkbox("Is Active Member?", value=True)
+    estimated_salary = st.sidebar.number_input("Estimated Salary ($)", 0.0, 200000.0, 50000.0)
 
-    # Creamos un diccionario con los datos
+    # Dictionary to hold the data (Matches typical dataset column names)
     data = {
         'CreditScore': credit_score,
         'Geography': geography,
@@ -41,76 +42,76 @@ def user_input_features():
         'IsActiveMember': 1 if is_active_member else 0,
         'EstimatedSalary': estimated_salary
     }
+    # Convert to DataFrame
     features = pd.DataFrame(data, index=[0])
     return features
 
 df = user_input_features()
 
-# --- PANTALLA PRINCIPAL ---
+# --- MAIN INTERFACE ---
 
-# 1. Mostrar los datos ingresados
-st.subheader("🔍 Datos del Cliente a Evaluar")
+# 1. Display User Inputs
+st.subheader("🔍 Customer Data")
 st.dataframe(df, hide_index=True)
 
-# 2. Función de Predicción (MOCKUP / SIMULACIÓN)
-# NOTA: Aquí es donde cargarás tu modelo real más adelante con joblib
-def predecir_churn_simulado(input_data):
-    # Lógica tonta solo para efectos de demostración visual
-    # Si es mayor y tiene poco dinero o muchos productos, aumenta el riesgo
+# 2. Prediction Logic (MOCKUP / SIMULATION)
+# NOTE: Replace this function with your actual model prediction later
+def predict_churn_simulated(input_data):
+    # Dummy logic for visual demonstration purposes only
     score = 0
     if input_data['Age'][0] > 50: score += 30
     if input_data['IsActiveMember'][0] == 0: score += 20
     if input_data['NumOfProducts'][0] >= 3: score += 40
     if input_data['Balance'][0] == 0: score += 10
     
-    # Retornamos probabilidad entre 0 y 1
-    probabilidad = min(score + np.random.randint(0, 20), 100) / 100
-    return probabilidad
+    # Return probability between 0 and 1
+    prob = min(score + np.random.randint(0, 20), 100) / 100
+    return prob
 
-# 3. Botón de Predicción y Resultados
+# 3. Prediction Button and Results
 col1, col2 = st.columns([1, 2])
 
 with col1:
-    st.markdown("<br>", unsafe_allow_html=True) # Espacio
-    predict_btn = st.button("🚀 Calcular Riesgo de Churn", type="primary")
+    st.markdown("<br>", unsafe_allow_html=True) # Vertical spacer
+    predict_btn = st.button("🚀 Calculate Churn Risk", type="primary")
 
 with col2:
     if predict_btn:
-        with st.spinner('Analizando patrones de comportamiento...'):
-            time.sleep(1) # Simular tiempo de cómputo
+        with st.spinner('Analyzing behavior patterns...'):
+            time.sleep(1) # Simulate computation time
             
-            # --- AQUÍ USARÍAS: prediction = model.predict_proba(df) ---
-            probabilidad = predecir_churn_simulado(df)
+            # --- REAL INTEGRATION: prediction = model.predict_proba(df) ---
+            probability = predict_churn_simulated(df)
             
-            # Mostrar métrica visual
-            st.metric(label="Probabilidad de Abandono", value=f"{probabilidad*100:.1f}%")
+            # Display Metric
+            st.metric(label="Churn Probability", value=f"{probability*100:.1f}%")
             
-            # Lógica de semáforo
-            if probabilidad > 0.5:
-                st.error("⚠️ ALTO RIESGO: Es probable que este cliente abandone el banco.")
-                st.toast("Alerta: Cliente en riesgo detectado")
+            # Conditional Alert System
+            if probability > 0.5:
+                st.error("⚠️ HIGH RISK: This customer is likely to churn.")
+                st.toast("Alert: High risk customer detected")
             else:
-                st.success("✅ BAJO RIESGO: Es probable que el cliente se quede.")
+                st.success("✅ LOW RISK: This customer is likely to stay.")
 
-# --- PESTAÑAS EXPLICATIVAS (INTEGRACIÓN NOTEBOOKLM) ---
+# --- EXPLANATION TABS (NOTEBOOKLM CONTENT) ---
 st.markdown("---")
-tab1, tab2 = st.tabs(["📘 Explicación del Modelo", "📊 Importancia de Variables"])
+tab1, tab2 = st.tabs(["📘 Model Explanation", "📊 Feature Importance"])
 
 with tab1:
     st.markdown("""
-    ### ¿Cómo funciona este modelo?
-    *(Aquí pegarás el texto generado por NotebookLM explicando XGBoost o Random Forest)*
+    ### How does this model work?
+    *(Use NotebookLM to generate this text based on your training code)*
     
-    Este modelo utiliza un algoritmo de **Gradient Boosting** entrenado con un dataset de 10,000 clientes bancarios.
-    Evalúa patrones no lineales entre la edad, el saldo y la actividad del cliente para determinar su fidelidad.
+    This model utilizes a **Gradient Boosting algorithm (XGBoost)** trained on a dataset of 10,000 bank customers.
+    It evaluates non-linear relationships between age, balance, and activity status to determine loyalty.
     """)
 
 with tab2:
-    st.info("Aquí puedes insertar una imagen estática generada por Matplotlib/SHAP")
+    st.info("Place a static image generated by Matplotlib/SHAP here")
     # st.image("assets/feature_importance.png")
     st.markdown("""
-    Las variables más influyentes en la decisión del modelo suelen ser:
-    1. **Edad**: Los clientes mayores tienden a tener mayor tasa de abandono.
-    2. **Número de Productos**: Tener 3 o más productos aumenta drásticamente el riesgo.
-    3. **Membresía Activa**: Los miembros inactivos son más propensos a irse.
+    **Key Factors Influencing the Prediction:**
+    1. **Age:** Older customers tend to have a higher churn rate.
+    2. **Number of Products:** Having 3 or more products drastically increases risk.
+    3. **Active Membership:** Inactive members are more likely to leave.
     """)
