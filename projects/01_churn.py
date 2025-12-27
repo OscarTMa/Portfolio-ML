@@ -112,7 +112,7 @@ with col2:
             # --- C. DISPLAY RESULTS ---
             st.metric(label="Churn Probability", value=f"{prediction_prob*100:.2f}%")
             
-            # Visual Progress Bar
+            # FIX: Convert numpy float to python float for Streamlit
             st.progress(float(prediction_prob))
             
             # Conditional Logic
