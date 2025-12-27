@@ -113,7 +113,7 @@ with col2:
             st.metric(label="Churn Probability", value=f"{prediction_prob*100:.2f}%")
             
             # Visual Progress Bar
-            st.progress(prediction_prob)
+            st.progress(float(prediction_prob))
             
             # Conditional Logic
             if prediction_prob > 0.5:
