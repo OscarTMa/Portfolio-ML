@@ -1,10 +1,3 @@
-Aquí tienes el código **completo y corregido** para `projects/02_precios.py`.
-
-He incluido la **solución definitiva** para el error de las columnas (`ValueError`). El código ahora le pregunta automáticamente al modelo: *"¿En qué orden quieres los datos?"* y reordena el DataFrame antes de predecir.
-
-Copia y reemplaza todo el contenido de `projects/02_precios.py`:
-
-```python
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -151,4 +144,3 @@ with tab2:
     *Note: The model is trained on 1990 census data, so prices reflect that era relative values.*
     """)
 
-```
