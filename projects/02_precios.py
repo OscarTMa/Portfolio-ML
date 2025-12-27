@@ -1,3 +1,10 @@
+Aquí tienes el código **completo y corregido** para `projects/02_precios.py`.
+
+He incluido la **solución definitiva** para el error de las columnas (`ValueError`). El código ahora le pregunta automáticamente al modelo: *"¿En qué orden quieres los datos?"* y reordena el DataFrame antes de predecir.
+
+Copia y reemplaza todo el contenido de `projects/02_precios.py`:
+
+```python
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -16,20 +23,22 @@ demographics and property characteristics using a **Random Forest Regressor**.
 def load_model():
     path = 'models/housing_rf_model.pkl'
     if os.path.exists(path):
-        return joblib.load(path)
+        model = joblib.load(path)
+        return model
     return None
 
 model = load_model()
 
+# Check if model exists
 if model is None:
-    st.error("⚠️ Model not found! Please run the training notebook first.")
+    st.error("⚠️ **Model not found!** Please run the `training_prices.ipynb` notebook first to generate the .pkl file.")
     st.stop()
 
 # --- 2. SIDEBAR INPUTS ---
 st.sidebar.header("🏡 Property Details")
 
 def user_input_features():
-    # Geographical coordinates
+    # Geographical coordinates (Default to Los Angeles area)
     lat = st.sidebar.slider("Latitude", 32.5, 42.0, 34.05)
     lon = st.sidebar.slider("Longitude", -124.3, -114.3, -118.24)
     
@@ -40,9 +49,12 @@ def user_input_features():
     ave_occup = st.sidebar.slider("Avg Occupants per Household", 1.0, 6.0, 3.0)
     
     # Property Specs
-    ave_rooms = st.sidebar.slider("Avg Rooms", 1.0, 10.0, 5.0)
-    ave_bedrms = st.sidebar.slider("Avg Bedrooms", 0.5, 5.0, 1.0)
+    # Note: Logic matches the training notebook (Average rooms, not total)
+    ave_rooms = st.sidebar.slider("Avg Rooms per Household", 1.0, 10.0, 5.0)
+    ave_bedrms = st.sidebar.slider("Avg Bedrooms per Household", 0.5, 5.0, 1.0)
     
+    # Dictionary with raw data
+    # IMPORTANT: keys must match the training column names exactly
     data = {
         'MedInc': med_inc,
         'HouseAge': house_age,
@@ -54,20 +66,7 @@ def user_input_features():
         'Longitude': lon
     }
     
-    # Convert to DataFrame
-    df = pd.DataFrame(data, index=[0])
-    
-    # --- CRITICAL FIX: REORDER COLUMNS ---
-    # Scikit-learn requires columns to be in the EXACT same order as training.
-    # Based on the training notebook, the order was:
-    # Longitude, Latitude, HouseAge, Population, AveOccup, MedInc, AveRooms, AveBedrms
-    
-    expected_order = ["Longitude", "Latitude", "HouseAge", "Population", "AveOccup", "MedInc", "AveRooms", "AveBedrms"]
-    
-    # Reorder the dataframe to match the model's expectations
-    df = df[expected_order]
-    
-    return df
+    return pd.DataFrame(data, index=[0])
 
 df = user_input_features()
 
@@ -78,28 +77,43 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     st.subheader("📍 Location")
-    # Streamlit requires columns named 'lat' and 'lon' for the map
+    # Streamlit map requires columns named exactly 'lat' and 'lon'
     map_data = pd.DataFrame({'lat': [df['Latitude'][0]], 'lon': [df['Longitude'][0]]})
     st.map(map_data, zoom=6)
 
 with col2:
     st.subheader("💵 Prediction")
     
+    st.markdown("<br>", unsafe_allow_html=True) # Spacer
+    
     if st.button("Estimate Price", type="primary"):
         with st.spinner('Calculating value...'):
-            # Predict
-            prediction = model.predict(df)[0]
             
-            # The target in dataset is in units of $100,000
+            # --- FIX: DYNAMIC REORDERING ---
+            # We ask the model explicitly what column order it expects.
+            # This prevents the "ValueError: feature_names mismatch" error forever.
+            if hasattr(model, 'feature_names_in_'):
+                expected_order = model.feature_names_in_
+                df_ordered = df[expected_order]
+            else:
+                df_ordered = df
+            
+            # Predict
+            prediction = model.predict(df_ordered)[0]
+            
+            # The target in dataset is in units of $100,000, so we multiply
             final_price = prediction * 100000
             
+            # Display Metric
             st.metric(label="Estimated Value", value=f"${final_price:,.2f}")
             
             # Context info
-            if final_price > 400000:
-                st.info("ℹ️ This is a high-value area.")
+            if final_price > 450000:
+                st.info("ℹ️ High-value area (Expensive).")
+            elif final_price < 200000:
+                st.success("ℹ️ Affordable area.")
             else:
-                st.info("ℹ️ This is an affordable area.")
+                st.info("ℹ️ Mid-range area.")
 
 # Display Input Data Summary
 st.markdown("### Selected Parameters")
@@ -112,23 +126,29 @@ tab1, tab2 = st.tabs(["📘 Model Logic", "📉 Error Metrics"])
 with tab1:
     st.markdown("""
     ### Random Forest Regression
-    *(Use NotebookLM to expand on this)*
+    *(Use NotebookLM to expand on this based on your training notebook)*
     
-    Unlike the Churn project (Classification), this project solves a **Regression** problem.
-    We use a **Random Forest**, which builds multiple decision trees and averages their outputs 
-    to predict a continuous numerical value (the price).
+    This project solves a **Regression** problem (predicting a number).
     
-    **Key Features Used:**
-    * **Median Income:** The strongest predictor of house prices.
-    * **Location (Lat/Lon):** Crucial for real estate value.
+    **How it works:**
+    We use a **Random Forest Regressor**, which is a collection of decision trees. 
+    Each tree gives an estimate of the price, and the final result is the average of all trees.
+    
+    **Key Features:**
+    1. **Location:** California coastal areas are significantly more expensive.
+    2. **Median Income:** Wealthier neighborhoods drive prices up (Strongest correlation).
+    3. **House Age:** Older houses in established areas can be more valuable.
     """)
 
 with tab2:
     st.markdown("""
     ### Model Performance
-    During training, the model achieved:
-    * **R² Score:** ~0.80 (Explains 80% of price variance)
-    * **MAE (Mean Absolute Error):** ~$30,000
+    During training on the California Housing dataset:
     
-    *Note: Real estate prices are volatile, and this model is based on 1990s California census data.*
+    * **R² Score:** ~0.80 (The model explains about 80% of price variations).
+    * **MAE (Mean Absolute Error):** ~$30,000 - $40,000.
+    
+    *Note: The model is trained on 1990 census data, so prices reflect that era relative values.*
     """)
+
+```
