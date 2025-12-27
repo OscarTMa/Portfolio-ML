@@ -29,7 +29,7 @@ if model is None:
 st.sidebar.header("🏡 Property Details")
 
 def user_input_features():
-    # Geographical coordinates (Default to Los Angeles area)
+    # Geographical coordinates
     lat = st.sidebar.slider("Latitude", 32.5, 42.0, 34.05)
     lon = st.sidebar.slider("Longitude", -124.3, -114.3, -118.24)
     
@@ -43,7 +43,6 @@ def user_input_features():
     ave_rooms = st.sidebar.slider("Avg Rooms", 1.0, 10.0, 5.0)
     ave_bedrms = st.sidebar.slider("Avg Bedrooms", 0.5, 5.0, 1.0)
     
-    # Match column names from training
     data = {
         'MedInc': med_inc,
         'HouseAge': house_age,
@@ -54,7 +53,21 @@ def user_input_features():
         'Latitude': lat,
         'Longitude': lon
     }
-    return pd.DataFrame(data, index=[0])
+    
+    # Convert to DataFrame
+    df = pd.DataFrame(data, index=[0])
+    
+    # --- CRITICAL FIX: REORDER COLUMNS ---
+    # Scikit-learn requires columns to be in the EXACT same order as training.
+    # Based on the training notebook, the order was:
+    # Longitude, Latitude, HouseAge, Population, AveOccup, MedInc, AveRooms, AveBedrms
+    
+    expected_order = ["Longitude", "Latitude", "HouseAge", "Population", "AveOccup", "MedInc", "AveRooms", "AveBedrms"]
+    
+    # Reorder the dataframe to match the model's expectations
+    df = df[expected_order]
+    
+    return df
 
 df = user_input_features()
 
