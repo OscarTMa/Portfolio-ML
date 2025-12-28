@@ -10,3 +10,4 @@ prophet
 transformers
 torch
 plotly
+wordcloud
