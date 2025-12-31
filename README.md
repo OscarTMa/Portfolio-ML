@@ -68,16 +68,11 @@ To run this portfolio on your local machine, follow these steps:
 
 ### 1. Clone the repository
 ```bash
-git clone [https://github.com/YOUR_USERNAME/ml-portfolio.git](https://github.com/YOUR_USERNAME/ml-portfolio.git)
+git clone [https://github.com/oscartma/portfolio-ml.git](https://github.com/oscartma/portfolio-ml.git)
 cd ml-portfolio
+```
 
-This is the final touch to make your portfolio look professional and ready for recruiters. A good README.md explains what you did, how you did it, and how to run it.
-
-Here is a complete, well-structured template. Copy this code into your README.md file in GitHub.
-
-Markdown
-
-# 🚀 Machine Learning & AI Portfolio
+### 🚀 Machine Learning & AI Portfolio
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.31-FF4B4B)
@@ -91,7 +86,7 @@ The entire portfolio is wrapped in an interactive **Streamlit** web application,
 ---
 
 ## 🔗 Live Demo
-**[👉 Click here to view the Live App](https://share.streamlit.io/TU_USUARIO/TU_REPO)** *(Replace this link with your actual Streamlit Cloud URL)*
+**[👉 Click here to view the Live App](https://portfolio-ml-vj57cd7kcpzsgtilwpaztk.streamlit.app/)**
 
 ---
 
@@ -147,8 +142,9 @@ To run this portfolio on your local machine, follow these steps:
 
 ### 1. Clone the repository
 ```bash
-git clone [https://github.com/YOUR_USERNAME/ml-portfolio.git](https://github.com/YOUR_USERNAME/ml-portfolio.git)
-cd ml-portfolio
+git clone [https://github.com/oscartma/portfolio-ml.git](https://github.com/oscartma/portfolio-ml.git)
+cd portfolio-ml
+```
 
 ### 2. Install Dependencies
 pip install -r requirements.txt
@@ -165,10 +161,11 @@ jupyter notebook
 # - training_segmentation.ipynb
 # - training_forecasting.ipynb
 # - training_nlp.ipynb
-4. Run the App
 
-Bash
+4. Run the App
+```bash
 streamlit run app.py
+```
 
 ### 📁 Repository Structure
 
