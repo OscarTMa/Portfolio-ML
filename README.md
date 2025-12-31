@@ -12,7 +12,7 @@ The entire portfolio is wrapped in an interactive **Streamlit** web application,
 ---
 
 ## 🔗 Live Demo
-**[👉 Click here to view the Live App](https://share.streamlit.io/TU_USUARIO/TU_REPO)** *(Replace this link with your actual Streamlit Cloud URL)*
+**[👉 Click here to view the Live App](https://portfolio-ml-vj57cd7kcpzsgtilwpaztk.streamlit.app/)** 
 
 ---
 
