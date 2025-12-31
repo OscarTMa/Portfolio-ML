@@ -147,8 +147,8 @@ streamlit run app.py
 ```
 
 🤝 Contact
-Created by Oscar Tibaduiza 💼 LinkedIn: linkedin.com/in/oscartibaduiza
-
+Created by Oscar Tibaduiza 
+💼 [linkedin.com/in/oscartibaduiza](https://www.linkedin.com/in/oscartibaduiza/overlay/contact-info/)
 📧 Email: oscartibaduiza@hotmail.com
 
 
