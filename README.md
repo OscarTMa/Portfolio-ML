@@ -85,45 +85,6 @@ The entire portfolio is wrapped in an interactive **Streamlit** web application,
 
 ---
 
-## 🔗 Live Demo
-**[👉 Click here to view the Live App](https://portfolio-ml-vj57cd7kcpzsgtilwpaztk.streamlit.app/)**
-
----
-
-## 📂 Project Catalog
-
-### 1. 📉 Customer Churn Prediction
-* **Problem:** Predict if a bank customer is likely to leave (churn).
-* **Type:** Binary Classification.
-* **Tech:** XGBoost, SMOTE (for class imbalance), Pandas.
-* **Key Feature:** Risk probability score with visual indicators.
-
-### 2. 💰 Real Estate Price Estimator
-* **Problem:** Estimate the median house value in California districts based on demographics.
-* **Type:** Regression.
-* **Tech:** Random Forest Regressor, Scikit-Learn.
-* **Key Feature:** Interactive map visualization and dynamic column reordering for inference.
-
-### 3. 🧩 Customer Segmentation
-* **Problem:** Group mall customers to identify target marketing audiences.
-* **Type:** Unsupervised Learning (Clustering).
-* **Tech:** K-Means Clustering, Elbow Method.
-* **Key Feature:** Interactive **Plotly** chart visualizing clusters and user position.
-
-### 4. 📅 Sales Forecasting
-* **Problem:** Predict future monthly car sales based on historical data.
-* **Type:** Time Series Forecasting.
-* **Tech:** Prophet (by Meta).
-* **Key Feature:** dynamic horizon slider (predict 1 to 24 months ahead).
-
-### 5. 🤖 NLP Sentiment Classifier
-* **Problem:** Analyze the emotional tone (Positive/Negative) of text reviews.
-* **Type:** Natural Language Processing (NLP).
-* **Tech:** TF-IDF Vectorizer, Logistic Regression, WordCloud.
-* **Key Feature:** Real-time text analysis with confidence scores and keyword visualization.
-
----
-
 ## 🛠️ Tech Stack & Tools
 
 * **Language:** Python
@@ -154,13 +115,13 @@ The app requires pre-trained models (.pkl files) to function. Run the training n
 
 # This will create the 'models/' folder and save the .pkl files
 
-jupyter notebook
-# Open and run all cells in:
-# - training_churn.ipynb
-# - training_prices.ipynb
-# - training_segmentation.ipynb
-# - training_forecasting.ipynb
-# - training_nlp.ipynb
+### jupyter notebook
+ Open and run all cells in:
+ - training_churn.ipynb
+ - training_prices.ipynb
+ - training_segmentation.ipynb
+ - training_forecasting.ipynb
+ - training_nlp.ipynb
 
 4. Run the App
 ```bash
