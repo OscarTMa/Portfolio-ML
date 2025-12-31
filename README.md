@@ -71,18 +71,6 @@ To run this portfolio on your local machine, follow these steps:
 git clone [https://github.com/oscartma/portfolio-ml.git](https://github.com/oscartma/portfolio-ml.git)
 cd ml-portfolio
 ```
-
-### 🚀 Machine Learning & AI Portfolio
-
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.31-FF4B4B)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.0-orange)
-![XGBoost](https://img.shields.io/badge/XGBoost-Latest-green)
-
-A comprehensive portfolio showcasing **5 distinct Machine Learning and AI projects**, ranging from Supervised Learning (Regression/Classification) to Unsupervised Learning and NLP. 
-
-The entire portfolio is wrapped in an interactive **Streamlit** web application, allowing users to input real-time data and see predictions instantly.
-
 ---
 
 ## 🛠️ Tech Stack & Tools
