@@ -129,7 +129,7 @@ streamlit run app.py
 ```
 
 ### 📁 Repository Structure
-
+```bash
 ├── app.py                   # Main entry point (Navigation)
 ├── requirements.txt         # Python dependencies
 ├── README.md                # Documentation
@@ -144,6 +144,8 @@ streamlit run app.py
     ├── training_churn.ipynb
     ├── training_prices.ipynb
     ├── ...
+```
+
 🤝 Contact
 Created by Oscar Tibaduiza 💼 LinkedIn: linkedin.com/in/oscartibaduiza
 
