@@ -101,7 +101,7 @@ pip install -r requirements.txt
 ### 3. Train the Models (Crucial Step!)
 The app requires pre-trained models (.pkl files) to function. Run the training notebooks to generate them:
 
-# This will create the 'models/' folder and save the .pkl files
+This will create the 'models/' folder and save the .pkl files
 
 ### jupyter notebook
  Open and run all cells in:
@@ -111,7 +111,7 @@ The app requires pre-trained models (.pkl files) to function. Run the training n
  - training_forecasting.ipynb
  - training_nlp.ipynb
 
-4. Run the App
+### 4. Run the App
 ```bash
 streamlit run app.py
 ```
